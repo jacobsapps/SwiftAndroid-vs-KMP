@@ -44,19 +44,22 @@ public final class RollerCoasterService {
         self.decoder = JSONDecoder()
     }
 
-    public func fetchAll() throws -> RollerCoasterCatalog {
-        try request(path: "roller-coasters")
+    public func fetchAll() async throws -> RollerCoasterCatalog {
+        try await request(path: "roller-coasters")
     }
 
-    public func search(name: String) throws -> RollerCoasterCatalog {
+    public func search(name: String) async throws -> RollerCoasterCatalog {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty {
-            return try fetchAll()
+            return try await fetchAll()
         }
-        return try request(path: "roller-coasters/search", queryItems: [URLQueryItem(name: "name", value: trimmed)])
+        return try await request(
+            path: "roller-coasters/search",
+            queryItems: [URLQueryItem(name: "name", value: trimmed)]
+        )
     }
 
-    private func request(path: String, queryItems: [URLQueryItem] = []) throws -> RollerCoasterCatalog {
+    private func request(path: String, queryItems: [URLQueryItem] = []) async throws -> RollerCoasterCatalog {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         components?.path = "/" + path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         components?.queryItems = queryItems.isEmpty ? nil : queryItems
@@ -65,47 +68,10 @@ public final class RollerCoasterService {
         }
 
         let request = URLRequest(url: url, timeoutInterval: 15)
-        let data = try URLSession.shared.syncData(for: request)
-        return try decoder.decode(RollerCoasterCatalog.self, from: data)
-    }
-}
-
-private extension URLSession {
-    func syncData(for request: URLRequest) throws -> Data {
-        let semaphore = DispatchSemaphore(value: 0)
-        let box = ResultBox<Data>()
-
-        let task = dataTask(with: request) { data, response, error in
-            defer { semaphore.signal() }
-            if let error {
-                box.store(.failure(error))
-                return
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200, let data else {
-                box.store(.failure(RollerCoasterServiceError.invalidResponse))
-                return
-            }
-            box.store(.success(data))
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw RollerCoasterServiceError.invalidResponse
         }
-        task.resume()
-        semaphore.wait()
-        return try box.value.get()
-    }
-}
-
-private final class ResultBox<Value> {
-    private var result: Result<Value, Error>?
-    private let lock = NSLock()
-
-    func store(_ value: Result<Value, Error>) {
-        lock.lock()
-        result = value
-        lock.unlock()
-    }
-
-    var value: Result<Value, Error> {
-        lock.lock()
-        defer { lock.unlock() }
-        return result ?? .failure(RollerCoasterServiceError.invalidResponse)
+        return try decoder.decode(RollerCoasterCatalog.self, from: data)
     }
 }

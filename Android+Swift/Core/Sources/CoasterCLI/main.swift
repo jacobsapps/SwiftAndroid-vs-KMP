@@ -3,7 +3,7 @@ import Foundation
 
 @main
 struct CoasterCLI {
-    static func main() {
+    static func main() async {
         let service: RollerCoasterService
         do {
             service = try RollerCoasterService()
@@ -36,9 +36,9 @@ struct CoasterCLI {
             do {
                 let catalog: RollerCoasterCatalog
                 if trimmed.isEmpty {
-                    catalog = try service.fetchAll()
+                    catalog = try await service.fetchAll()
                 } else {
-                    catalog = try service.search(name: trimmed)
+                    catalog = try await service.search(name: trimmed)
                 }
                 lastMatches = catalog.categories
                 displayMatches(lastMatches)
