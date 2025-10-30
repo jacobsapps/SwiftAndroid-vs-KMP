@@ -1,0 +1,13 @@
+{
+  "name": "coaster-api",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Local coaster JSON API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

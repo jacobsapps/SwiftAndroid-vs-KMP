@@ -1,0 +1,191 @@
+{
+  "categories": [
+    {
+      "slug": "Air_Powered_Vertical_Coaster",
+      "name": "Air Powered Roller Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Air_Powered_Vertical_Coaster",
+      "construction": "Track consists of steel girders built upon massive supports. Trains run on classical rubber tires to give the guests a smoother ride, with up-stop wheels below the track; and are air-propelled in order to complete the track.",
+      "prebuilt_designs": [
+        "Wings of Apollo",
+        "Vertical Spike (Grand Canyon)",
+        "Twin Thunder"
+      ],
+      "image": "images/Air_Powered_Vertical_Coaster.jpg",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/6/6f/Air_Power_Build.jpg/revision/latest/scale-to-width-down/330?cb=20150224033325"
+    },
+    {
+      "slug": "Bobsleigh_Coaster",
+      "name": "Bobsleigh Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Bobsleigh_Coaster",
+      "construction": "Track is a semi-circular channel, supported by tubular steel posts. Cars run on small wheels, and are free to take their own course along the track, guided only by the curvature and gradient of the channel.",
+      "prebuilt_designs": [
+        "Big Bob",
+        "Mini Bob",
+        "Quiver (Mel's World)",
+        "Roller Coaster 5 (Dragon's Cove)",
+        "Avalanche (Megaworld Park)",
+        "Schweizer Bobbahn (Heide-Park)",
+        "Avalanche (Blackpool Pleasure Beach)",
+        "Icicle Bob",
+        "Ignition",
+        "Penguin Paradise",
+        "Penguin Toboggan",
+        "The Plague",
+        "Toxic Toboggan",
+        "SlipSlider",
+        "Water Python"
+      ],
+      "image": "images/Bobsleigh_Coaster.png",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/4/4f/Bobsleigh_Coaster_RCT1_Icon.png/revision/latest?cb=20141029230535"
+    },
+    {
+      "slug": "Compact_Inverted_Coaster",
+      "name": "Compact Inverted Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Compact_Inverted_Coaster",
+      "construction": "Track has a tubular steel spine, connected to the outside edges of tubular steel running rails. Supports are large tubular steel posts. Trains hang underneath the track, held in position by wheels above, below, and inside the running rails.",
+      "prebuilt_designs": [
+        "Roller Coaster 3 (Volcania)",
+        "Roller Coaster 2 (Dragon's Cove)",
+        "Roller Coaster 2 (Southern Sands)",
+        "Limit (Heide-Park)",
+        "El Condor",
+        "Lobotomizer",
+        "Vampire (Six Flags Belgium) (Can't be saved as pre-built ride. OpenRCT2 removed this limit)",
+        "El Condor (Six Flags Holland)",
+        "Compact Inverted Coaster (Rock 'n' Roll Revival)",
+        "Facelift",
+        "Fear Slinger",
+        "Dicing With Death (Inverted Shuttle Coaster)",
+        "The Squeezer (Inverted Vertical Shuttle)",
+        "Paradise Twister (Paradise Island)"
+      ],
+      "image": "images/Compact_Inverted_Coaster.png",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/a/a2/Compact_Inverted_Coaster_RCT1_Icon.png/revision/latest?cb=20141029225614"
+    },
+    {
+      "slug": "Corkscrew_Roller_Coaster",
+      "name": "Corkscrew Roller Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Corkscrew_Roller_Coaster",
+      "construction": "Track has a tubular steel spine, connected to the outside edges of tubular steel running rails. Supports are large tubular steel posts. Trains are held on the track by wheels above, below, and inside the running rails.",
+      "prebuilt_designs": [
+        "Boomerang (requires the Half Loop and Vertical Loop track elements)",
+        "Corkscrew",
+        "Whiplash (Crumbly Woods)",
+        "Defibrillator (Funtopia) \u2013 it uses the Boomerang track, but is repainted a maroon color",
+        "Roller Coaster 1 (Tiny Towers)",
+        "Boomerang (Megaworld Park)",
+        "Twisted Sisters (1) (Megaworld Park)",
+        "Twisted Sisters (2) (Megaworld Park)",
+        "Viper (Megaworld Park)",
+        "Corkscrew (Alton Towers)",
+        "Big Loop (Heide-Park)",
+        "Irn Bru Revolution (Blackpool Pleasure Beach)",
+        "Cobra",
+        "Great American Scream Machine",
+        "Ionizer",
+        "Seal Sliding",
+        "Slippery Seals",
+        "Tornado",
+        "Triple Corkscrew",
+        "Viper",
+        "Cobra (Six Flags Belgium)",
+        "Tornado (Six Flags Belgium)",
+        "Great American Scream Machine (Six Flags Great Adventure)",
+        "La Via Volta (Six Flags Holland)",
+        "Viper (Six Flags Magic Mountain)",
+        "Flashback (Six Flags Over Texas)",
+        "Shark Attack (Fun at the Beach)",
+        "Slippery Eel (Fun at the Beach)"
+      ],
+      "image": "images/Corkscrew_Roller_Coaster.gif",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/8/81/Corkscrew_with_Bayerncurve.gif/revision/latest/scale-to-width-down/268?cb=20120415131412"
+    },
+    {
+      "slug": "Flying_Roller_Coaster",
+      "name": "Flying Roller Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Flying_Roller_Coaster",
+      "construction": "Track has a square-section steel spine, connected to the inside edges of tubular steel running rails.\u00a0Supports are large tubular steel posts. Trains are held on the track by wheels below and inside the running rails. Unlike\u00a0Lay-down Roller Coaster, this ride starts with upside-down station, has fewer compatible inversions but gives more excitement and is easier to design.",
+      "prebuilt_designs": [
+        "Updraft",
+        "Terror-dactyl",
+        "Petrodactyl Terror (Jurassic Safari)"
+      ],
+      "image": "images/Flying_Roller_Coaster.jpg",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/4/4f/Ideal.jpg/revision/latest/scale-to-width-down/185?cb=20150221114041"
+    },
+    {
+      "slug": "Giga_Coaster",
+      "name": "Giga Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Giga_Coaster",
+      "construction": "A giant steel roller coaster capable of smooth drops and hills of over 300 feet.",
+      "prebuilt_designs": [
+        "Goliath",
+        "Ice Chaser",
+        "Neptune's Knot",
+        "Velocerator",
+        "Goliath (Six Flags Holland)",
+        "Expedition GeForce",
+        "The Avenger (The Money Pit)"
+      ],
+      "image": "images/Giga_Coaster.gif",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/6/6e/Rita_and_Corkscrew_%40_Alton_Towers.gif/revision/latest/scale-to-width-down/608?cb=20120511154037"
+    },
+    {
+      "slug": "Heartline_Twister_Coaster",
+      "name": "Heartline Twister Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Heartline_Twister_Coaster",
+      "construction": "The track consists of tubular steel running rails running through circular steel hoops. Cars run centrally between the rails, allowing heartline twists.",
+      "prebuilt_designs": [
+        "Heartline Twister 1",
+        "Big Twister",
+        "Twicky Twister"
+      ],
+      "image": "images/Heartline_Twister_Coaster.png",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/c/c8/Heartline_Twister_Coaster_RCT1_Icon.png/revision/latest?cb=20141029225734"
+    },
+    {
+      "slug": "Inverted_Hairpin_Coaster",
+      "name": "Inverted Hairpin Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Inverted_Hairpin_Coaster",
+      "construction": "Track consists of tubular steel rails. Supports are large tubular steel posts. Cars hang under the track, held on by wheels above, below, and outside the running rails.",
+      "prebuilt_designs": [],
+      "image": "images/Inverted_Hairpin_Coaster.png",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/d/dd/Inverted_Hairpin_Coaster_RCT1_Icon.png/revision/latest?cb=20141029225617"
+    },
+    {
+      "slug": "Inverted_Impulse_Coaster",
+      "name": "Inverted Impulse Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Inverted_Impulse_Coaster",
+      "construction": "Inverted roller coaster trains are accelerated out of the station to travel up a vertical spike of track,then reverse back through the station to travel backwards up another vertical spike of track.",
+      "prebuilt_designs": [
+        "Circulator",
+        "Impulsive",
+        "Loop-the-Loop",
+        "Multidiver"
+      ],
+      "image": "images/Inverted_Impulse_Coaster.jpg",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/7/73/Vertical_velocity1.jpg/revision/latest/scale-to-width-down/123?cb=20150313021203"
+    },
+    {
+      "slug": "Inverted_Roller_Coaster",
+      "name": "Inverted Roller Coaster",
+      "source_url": "https://rct.fandom.com/wiki/Inverted_Roller_Coaster",
+      "construction": "Track has a square-section steel spine, connected to the inside edges of tubular steel running rails. Supports are large square-section steel posts. Trains hang underneath the track, held in position by wheels above, below and outside the running rails.",
+      "prebuilt_designs": [
+        "Danglefeet",
+        "Flightmare (Mel's World)",
+        "Dexter (Swamp Cove)",
+        "Sinister (Swamp Cove)",
+        "Roller Coaster 4 (Dusty Desert)",
+        "Frightmare (Frightmare Hills)",
+        "Roller Coaster 5 (Tiny Towers)",
+        "Purple Peril (Megaworld Park)",
+        "Nemesis (Alton Towers)",
+        "Empire Express",
+        "Golden Eagle"
+      ],
+      "image": "images/Inverted_Roller_Coaster.png",
+      "image_source": "https://static.wikia.nocookie.net/rct/images/1/18/4-Across_Inverted_Roller_Coaster_RCT1_Icon.png/revision/latest?cb=20141029230720"
+    }
+  ]
+}

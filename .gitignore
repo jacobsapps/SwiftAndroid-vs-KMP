@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# Swift Package Manager
+.build/
+.build-*/
+.build_*/
+.swiftpm/
+
+# Xcode / iOS
+DerivedData/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+xcuserdata/
+*.xcodeproj/*.pbxuser
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
+*.xcodeproj/project.xcworkspace/xcuserdata
+
+# Android / Gradle
+.gradle/
+**/build/
+**/.cxx/
+.idea/
+*.iml
+local.properties
+
+# Kotlin Multiplatform shared outputs
+**/out/
+**/kotlin-js-store/
+
+# Node / server helper
+server/node_modules/
+
+# Logs
+*.log
