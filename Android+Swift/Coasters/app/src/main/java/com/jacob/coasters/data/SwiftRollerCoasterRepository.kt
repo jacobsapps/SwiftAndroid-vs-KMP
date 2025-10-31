@@ -2,15 +2,16 @@ package com.jacob.coasters.data
 
 import com.jacob.coasters.BuildConfig
 import com.jacob.coasters.model.RollerCoaster
+import com.jacob.core.RollerCoasterCatalogHandle
+import com.jacob.core.RollerCoasterCategoryHandle
 import com.jacob.core.RollerCoasterService
 import com.jacob.coasters.model.RollerCoasterDetail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
 import org.swift.swiftkit.core.SwiftArena
 import java.util.concurrent.ConcurrentHashMap
+import java.util.Optional
 
 interface RollerCoasterRepository {
     suspend fun fetchAll(): List<RollerCoaster>
@@ -21,6 +22,9 @@ interface RollerCoasterRepository {
 class SwiftRollerCoasterRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val service: RollerCoasterService = RollerCoasterService.init(
+        Optional.ofNullable(
+            BuildConfig.ROLLER_COASTER_BASE_URL.takeUnless { it.isBlank() }
+        ),
         SwiftArena.ofAuto()
     )
 ) : RollerCoasterRepository {
@@ -29,14 +33,24 @@ class SwiftRollerCoasterRepository(
     private val apiBase = BuildConfig.ROLLER_COASTER_BASE_URL.trimEnd('/')
 
     override suspend fun fetchAll(): List<RollerCoaster> = withContext(dispatcher) {
-        parse(service.fetchAllJSON()).also { updateCache(it) }
+        SwiftArena.ofConfined().use { arena ->
+            val catalog = service.fetchAllHandle(arena)
+            val items = catalog.toRollerCoasters(arena)
+            updateCache(items)
+            items
+        }
     }
 
     override suspend fun search(query: String): List<RollerCoaster> = withContext(dispatcher) {
         if (query.isBlank()) {
             fetchAll()
         } else {
-            parse(service.searchJSON(query)).also { updateCache(it) }
+            SwiftArena.ofConfined().use { arena ->
+                val catalog = service.searchHandle(query, arena)
+                val items = catalog.toRollerCoasters(arena)
+                updateCache(items)
+                items
+            }
         }
     }
 
@@ -49,25 +63,31 @@ class SwiftRollerCoasterRepository(
         items.forEach { cache[it.slug] = it }
     }
 
-    private fun parse(json: String): List<RollerCoaster> {
-        return try {
-            val root = JSONObject(json)
-            val categories = root.optJSONArray("categories") ?: return emptyList()
-            List(categories.length()) { index ->
-                categories.optJSONObject(index)?.let { node ->
-                    RollerCoaster(
-                        slug = node.optString("slug"),
-                        name = node.optString("name"),
-                        construction = node.optString("construction"),
-                        prebuiltDesigns = node.optJSONArray("prebuilt_designs").toList(),
-                        sourceUrl = resolveUrl(node.optString("source_url")),
-                        imageSource = resolveUrl(node.optString("image_source"))
-                    )
-                }
-            }.filterNotNull()
-        } catch (e: Exception) {
+    private fun RollerCoasterCatalogHandle.toRollerCoasters(arena: SwiftArena): List<RollerCoaster> {
+        val total = count()
+        if (total == 0) return emptyList()
+        return buildList(total) { repeat(total) { index ->
+            add(category(index, arena).toRollerCoaster())
+        } }
+    }
+
+    private fun RollerCoasterCategoryHandle.toRollerCoaster(): RollerCoaster {
+        val prebuiltCount = prebuiltDesignCount()
+        val designs = if (prebuiltCount == 0) {
             emptyList()
+        } else {
+            buildList(prebuiltCount) { repeat(prebuiltCount) { index ->
+                add(prebuiltDesign(index))
+            } }
         }
+        return RollerCoaster(
+            slug = slug(),
+            name = name(),
+            construction = construction(),
+            prebuiltDesigns = designs,
+            sourceUrl = resolveUrl(sourceURLString()),
+            imageSource = resolveUrl(imageSourceString())
+        )
     }
 
     private fun resolveUrl(raw: String): String {
@@ -77,14 +97,5 @@ class SwiftRollerCoasterRepository(
         } else {
             "$apiBase/${raw.removePrefix("/")}"
         }
-    }
-
-    private fun JSONArray?.toList(): List<String> {
-        if (this == null) return emptyList()
-        val items = mutableListOf<String>()
-        for (i in 0 until length()) {
-            items += optString(i)
-        }
-        return items
     }
 }

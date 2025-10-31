@@ -20,16 +20,92 @@ public struct RollerCoasterCategory: Codable, Hashable, Sendable {
         case prebuiltDesigns = "prebuilt_designs"
         case imageSource = "image_source"
     }
+
+    public init(
+        slug: String,
+        name: String,
+        sourceURL: URL,
+        construction: String,
+        prebuiltDesigns: [String],
+        imageSource: URL
+    ) {
+        self.slug = slug
+        self.name = name
+        self.sourceURL = sourceURL
+        self.construction = construction
+        self.prebuiltDesigns = prebuiltDesigns
+        self.imageSource = imageSource
+    }
+
+    public func sourceURLString() -> String {
+        sourceURL.absoluteString
+    }
+
+    public func imageSourceString() -> String {
+        imageSource.absoluteString
+    }
+
+    public func prebuiltDesignCount() -> Int32 {
+        Int32(clamping: prebuiltDesigns.count)
+    }
+
+    public func prebuiltDesign(at index: Int32) -> String {
+        prebuiltDesigns[Int(index)]
+    }
 }
 
 public struct RollerCoasterCatalog: Codable, Hashable, Sendable {
     public let categories: [RollerCoasterCategory]
+
+    public init(categories: [RollerCoasterCategory]) {
+        self.categories = categories
+    }
+
+    public func categoriesCount() -> Int32 {
+        Int32(clamping: categories.count)
+    }
+
+    public func category(at index: Int32) -> RollerCoasterCategory {
+        categories[Int(index)]
+    }
+}
+
+public final class RollerCoasterCategoryHandle {
+    private let category: RollerCoasterCategory
+
+    public init(category: RollerCoasterCategory) {
+        self.category = category
+    }
+
+    public func slug() -> String { category.slug }
+    public func name() -> String { category.name }
+    public func construction() -> String { category.construction }
+    public func sourceURLString() -> String { category.sourceURL.absoluteString }
+    public func imageSourceString() -> String { category.imageSource.absoluteString }
+    public func prebuiltDesignCount() -> Int32 { Int32(clamping: category.prebuiltDesigns.count) }
+    public func prebuiltDesign(at index: Int32) -> String { category.prebuiltDesigns[Int(index)] }
+}
+
+public final class RollerCoasterCatalogHandle {
+    private let catalog: RollerCoasterCatalog
+
+    public init(catalog: RollerCoasterCatalog) {
+        self.catalog = catalog
+    }
+
+    public func count() -> Int32 {
+        Int32(clamping: catalog.categories.count)
+    }
+
+    public func category(at index: Int32) -> RollerCoasterCategoryHandle {
+        let category = catalog.categories[Int(index)]
+        return RollerCoasterCategoryHandle(category: category)
+    }
 }
 
 public final class RollerCoasterService {
     private let baseURLs: [URL]
     private let decoder: JSONDecoder
-    private let encoder: JSONEncoder
 
     public init(baseURL: String? = nil) {
         let envURL = ProcessInfo.processInfo.environment["ROLLER_COASTER_BASE_URL"]
@@ -48,7 +124,6 @@ public final class RollerCoasterService {
             ? [URL(string: "http://10.0.2.2:3000")!, URL(string: "http://127.0.0.1:3000")!]
             : resolved
         self.decoder = JSONDecoder()
-        self.encoder = JSONEncoder()
     }
 
     public func fetchAll() -> RollerCoasterCatalog {
@@ -69,19 +144,12 @@ public final class RollerCoasterService {
         return RollerCoasterCatalog(categories: [])
     }
 
-    public func fetchAllJSON() -> String {
-        encode(fetchAll())
+    public func fetchAllHandle() -> RollerCoasterCatalogHandle {
+        RollerCoasterCatalogHandle(catalog: fetchAll())
     }
 
-    public func searchJSON(name: String) -> String {
-        encode(search(name: name))
-    }
-
-    private func encode(_ catalog: RollerCoasterCatalog) -> String {
-        guard let data = try? encoder.encode(catalog) else {
-            return "{\"categories\":[]}"
-        }
-        return String(data: data, encoding: .utf8) ?? "{\"categories\":[]}"
+    public func searchHandle(name: String) -> RollerCoasterCatalogHandle {
+        RollerCoasterCatalogHandle(catalog: search(name: name))
     }
 }
 
@@ -103,7 +171,7 @@ private extension RollerCoasterService {
         }
         return nil
     }
-
+}
 
 // MARK: - JNI placeholders
 
