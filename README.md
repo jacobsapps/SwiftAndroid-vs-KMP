@@ -28,4 +28,5 @@ Monorepo containing a Swift-powered REST API, an Android app (Jetpack Compose + 
 ### Troubleshooting
 - **Gradle can’t find `jni.h` / `JAVA_HOME`** – export JDK 21 in every shell: `export JAVA_HOME=$(/usr/libexec/java_home -v 21)`.
 - **`:swiftcore:copyJniLibs` fails** – double-check the Swift toolchain (Swiftly snapshot) and Swift SDK path; rerun the task after copying the updated Swift sources.
+- **Swift 6 concurrency errors in generated JNI code** – the build ships with `Sources/RollerCoasterCore/ConcurrencySupport.swift` (and the matching file under `Core/`), which marks the raw JNI handles as `@unchecked Sendable`; make sure that file is present and you’re on the latest `swift-java` main before rerunning `./gradlew :swiftcore:copyJniLibs` (any remaining `Task {}` warnings are benign).
 - **Android UI shows empty results** – the app just wraps the Swift JSON feed; make sure the Express server (`server/`) is running and the emulator can reach `http://10.0.2.2:3000`.

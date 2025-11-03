@@ -11,14 +11,21 @@ android {
     defaultConfig {
         minSdkVersion 28
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
+    coreLibraryDesugaring('com.android.tools:desugar_jdk_libs:2.0.4')
     implementation('org.swift.swiftkit:swiftkit-core:1.0-SNAPSHOT')
 }
 

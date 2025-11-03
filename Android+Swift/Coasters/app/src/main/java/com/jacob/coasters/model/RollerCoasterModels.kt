@@ -6,6 +6,7 @@ data class RollerCoaster(
     val construction: String,
     val prebuiltDesigns: List<String>,
     val sourceUrl: String,
+    val imageUrl: String,
     val imageSource: String
 )
 

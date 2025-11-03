@@ -66,40 +66,6 @@ public struct RollerCoasterCatalog: Codable, Hashable, Sendable {
     }
 }
 
-public final class RollerCoasterCategoryHandle {
-    private let category: RollerCoasterCategory
-
-    public init(category: RollerCoasterCategory) {
-        self.category = category
-    }
-
-    public func slug() -> String { category.slug }
-    public func name() -> String { category.name }
-    public func construction() -> String { category.construction }
-    public func sourceURLString() -> String { category.sourceURL.absoluteString }
-    public func imageURLString() -> String { category.image.absoluteString }
-    public func imageSourceString() -> String { category.imageSource.absoluteString }
-    public func prebuiltDesignCount() -> Int32 { Int32(clamping: category.prebuiltDesigns.count) }
-    public func prebuiltDesign(at index: Int32) -> String { category.prebuiltDesigns[Int(index)] }
-}
-
-public final class RollerCoasterCatalogHandle {
-    private let catalog: RollerCoasterCatalog
-
-    public init(catalog: RollerCoasterCatalog) {
-        self.catalog = catalog
-    }
-
-    public func count() -> Int32 {
-        Int32(clamping: catalog.categories.count)
-    }
-
-    public func category(at index: Int32) -> RollerCoasterCategoryHandle {
-        let category = catalog.categories[Int(index)]
-        return RollerCoasterCategoryHandle(category: category)
-    }
-}
-
 public enum RollerCoasterServiceError: Error {
     case invalidURL
     case invalidResponse
@@ -118,6 +84,7 @@ public final class RollerCoasterService {
         } else if let envURL, !envURL.isEmpty {
             candidates.append(envURL)
         }
+        // Android emulator loopback uses 10.0.2.2, while macOS/iOS simulators hit 127.0.0.1.
         candidates.append(contentsOf: [
             "http://10.0.2.2:3000",
             "http://127.0.0.1:3000"
@@ -130,47 +97,19 @@ public final class RollerCoasterService {
         self.session = session
     }
 
-    // Async API for Swift callers
-    public func fetchAllAsync() async throws -> RollerCoasterCatalog {
+    public func fetchAll() async throws -> RollerCoasterCatalog {
         try await request(path: "roller-coasters")
     }
 
-    public func searchAsync(name: String) async throws -> RollerCoasterCatalog {
+    public func search(name: String) async throws -> RollerCoasterCatalog {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
-            return try await fetchAllAsync()
+            return try await fetchAll()
         }
         return try await request(
             path: "roller-coasters/search",
             queryItems: [URLQueryItem(name: "name", value: trimmed)]
         )
-    }
-
-    // Synchronous API for JNI bridging
-    public func fetchAll() -> RollerCoasterCatalog {
-        fetchRemoteCatalogSync(path: "roller-coasters") ?? RollerCoasterCatalog(categories: [])
-    }
-
-    public func search(name: String) -> RollerCoasterCatalog {
-        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else {
-            return fetchAll()
-        }
-        if let catalog = fetchRemoteCatalogSync(
-            path: "roller-coasters/search",
-            queryItems: [URLQueryItem(name: "name", value: trimmed)]
-        ) {
-            return catalog
-        }
-        return RollerCoasterCatalog(categories: [])
-    }
-
-    public func fetchAllHandle() -> RollerCoasterCatalogHandle {
-        RollerCoasterCatalogHandle(catalog: fetchAll())
-    }
-
-    public func searchHandle(name: String) -> RollerCoasterCatalogHandle {
-        RollerCoasterCatalogHandle(catalog: search(name: name))
     }
 
     private func request(path: String, queryItems: [URLQueryItem] = []) async throws -> RollerCoasterCatalog {
@@ -195,23 +134,13 @@ public final class RollerCoasterService {
         }
         throw RollerCoasterServiceError.invalidResponse
     }
+}
 
-    private func fetchRemoteCatalogSync(path: String, queryItems: [URLQueryItem] = []) -> RollerCoasterCatalog? {
-        for base in baseURLs {
-            var components = URLComponents(url: base, resolvingAgainstBaseURL: false)
-            components?.path = "/" + path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-            components?.queryItems = queryItems.isEmpty ? nil : queryItems
-            guard let url = components?.url else { continue }
-            do {
-                let data = try Data(contentsOf: url)
-                if let catalog = try? decoder.decode(RollerCoasterCatalog.self, from: data) {
-                    return catalog
-                }
-            } catch {
-                continue
-            }
-        }
-        return nil
+public struct RollerCoasterServiceFactory {
+    public init() {}
+
+    public static func make(baseURL: String?) -> RollerCoasterService {
+        RollerCoasterService(baseURL: baseURL)
     }
 }
 

@@ -48,10 +48,13 @@ let package = Package(
             name: "RollerCoasterCore",
             dependencies: [
                 .product(name: "SwiftJava", package: "swift-java"),
-                .product(name: "CSwiftJavaJNI", package: "swift-java")
+                .product(name: "CSwiftJavaJNI", package: "swift-java"),
+                .product(name: "SwiftJavaRuntimeSupport", package: "swift-java")
             ],
             swiftSettings: [
-                .unsafeFlags(["-I\(javaIncludePath)", "-I\(javaPlatformIncludePath)"], .when(platforms: [.macOS]))
+                .unsafeFlags(["-I\(javaIncludePath)", "-I\(javaPlatformIncludePath)"], .when(platforms: [.macOS])),
+                .unsafeFlags(["-Xfrontend", "-warn-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-strict-concurrency=minimal"])
             ],
             plugins: [
                 .plugin(name: "JExtractSwiftPlugin", package: "swift-java")

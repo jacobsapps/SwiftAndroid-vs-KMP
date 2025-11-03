@@ -94,7 +94,7 @@ fun RollerCoasterDetailScreen(
                         .padding(24.dp)
                 ) {
                     AsyncImage(
-                        model = detail.coaster.imageSource,
+                        model = detail.coaster.imageUrl,
                         contentDescription = detail.coaster.name,
                         modifier = Modifier
                             .fillMaxWidth()

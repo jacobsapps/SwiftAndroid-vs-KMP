@@ -118,7 +118,7 @@ private fun RollerCoasterRow(
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val imageUrl = item.coaster.imageSource
+        val imageUrl = item.coaster.imageUrl
         val imageModifier = Modifier
             .padding(end = 12.dp)
             .size(72.dp)

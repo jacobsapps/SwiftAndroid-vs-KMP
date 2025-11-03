@@ -80,13 +80,18 @@ let package = Package(
             name: "Core",
             dependencies: [
                 .product(name: "SwiftJava", package: "swift-java"),
-                .product(name: "CSwiftJavaJNI", package: "swift-java")
+                .product(name: "CSwiftJavaJNI", package: "swift-java"),
+                .product(name: "SwiftJavaRuntimeSupport", package: "swift-java")
             ],
             resources: [
                 .copy("swift-java.config")
             ],
             cSettings: [
                 .unsafeFlags(["-I\(javaIncludePath)", "-I\(javaPlatformIncludePath)"], .when(platforms: [.macOS]))
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-warn-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-strict-concurrency=minimal"])
             ],
             plugins: corePlugins
         ),
