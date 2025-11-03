@@ -90,7 +90,7 @@ class SwiftRollerCoasterRepository(
             construction = getConstruction(),
             prebuiltDesigns = designs,
             sourceUrl = resolveUrl(sourceURLString()),
-            imageUrl = resolveUrl(imageURLString()),
+            imageUrl = imageSourceString(),
             imageSource = resolveUrl(imageSourceString())
         )
     }
